@@ -1,29 +1,79 @@
-import React from 'react';
-import "./SignIn.css";
-import logo from '../img/logo.png'
-import { Link } from 'react-router-dom';
-
+import React, { useState } from 'react';
+import './SignIn.css'
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import logo from '../img/logo.png';
 
 function SignIn() {
-  return (
-    <div className='signIn'>
-      <div className="loginForm">
-        <img src={logo} className='signInLogo' alt="" />
-         <div>
-          <input type="email" name="email" id="email" placeholder='Email'/>
-         </div>
-         <div>
-          <input type="password" name="password" id='password' placeholder='Password' />
-         </div>
-         <input type="submit" value="Sign In" id='login-btn' />
-      </div>
-      <div className="loginForm2">
-        Dont,t have an account ?
-       <Link to="/signup"> <span style={{color:"blue",cursor:"pointer"}}>Sign Up</span></Link>
-      </div>
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
+  // toast functions
+  const notifyA = (msg) => toast.error(msg);
+  const notifyB = (msg) => toast.success(msg);
+
+  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+  const postData = () => {
+    // checking email
+    if (!emailRegex.test(email)) {
+      notifyA('Invalid email');
+      return;
+    }
+    // sending data to server
+    fetch('http://localhost:3000/api/auth/signin', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          notifyA(data.error);
+        } else {
+          notifyB('Signed in Successfully');
+          console.log(data);
+          localStorage.setItem('jwt', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
+
+          // Assuming login is successful, navigate to home route
+          navigate('/');
+        }
+      })
+      .catch((error) => {
+        console.error('Error during login:', error);
+        notifyA('Error during login');
+      });
+  };
+
+  return (
+    <div className="signIn">
+      <div>
+        <div className="loginForm">
+          <img src={logo} alt="" className="signUpLogo" />
+          <div>
+            <input type="email" name="email" id="email" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+          </div>
+          <div>
+            <input type="password" name="password" id="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          </div>
+          <input type="submit" id="login-btn" onClick={postData} value="Sign In" />
+        </div>
+        <div className="loginForm2">
+          Don't have an account?
+          <Link to="/signup">
+            <span style={{ color: 'blue', cursor: 'pointer' }}>Sign Up</span>
+          </Link>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default SignIn
+export default SignIn;
