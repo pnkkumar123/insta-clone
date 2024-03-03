@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import router from './routes/user.route.js';
 import { authRouter } from './routes/auth.route.js';
+import { PostRouter } from './routes/Posts.js';
 dotenv.config();
 
 
@@ -24,6 +25,7 @@ app.listen(3000,()=>{
 
 app.use("/api/user",router);
 app.use("/api/auth",authRouter);
+app.use("/api/Posts",PostRouter);
 
 app.use((err,req,res,next)=>{
     const statusCode = err.statusCode || 500;
