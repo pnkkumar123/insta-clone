@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 export default function SignUp() {
 
   const [formData, setFormData] = useState({
+    name:'',
     username: '',
     email: '',
     password: ''
