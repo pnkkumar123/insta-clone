@@ -6,6 +6,7 @@ import SignUp from './Components/SignUp'
 import SignIn from './Components/SignIn'
 import Profile from './Components/Profile'
 import Home from './Components/Home'
+import Modal from './Components/Modal'
 import CreatePost from './Components/createPost'
 import { LoginContext } from './Context/LoginContext'
 import { useState } from 'react'
@@ -28,7 +29,7 @@ function App() {
 <Route path='/createpost' element={<CreatePost/>}/>
 </Routes>
 <ToastContainer theme="dark"/>
-{modelOpen && <modal setModelOpen={setModelOpen}></modal>}
+{modelOpen && <Modal setModelOpen={setModelOpen}></Modal>}
     </LoginContext.Provider>
     </div>
   )

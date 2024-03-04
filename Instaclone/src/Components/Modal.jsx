@@ -3,17 +3,17 @@ import { RiCloseLine } from "react-icons/ri";
 import "./Modal.css";
 import { useNavigate } from "react-router-dom";
 
-export default function Modal({ setModalOpen }) {
+export default function Modal({ setModelOpen }) {
   const navigate = useNavigate();
   return (
-    <div className="darkBg" onClick={() => setModalOpen(false)}>
+    <div className="darkBg" onClick={() => setModelOpen(false)}>
       <div className="centered">
         <div className="modal">
           {/* modal header */}
           <div className="modalHeader">
             <h5 className="heading">Confirm</h5>
           </div>
-          <button className="closeBtn" onClick={() => setModalOpen(false)}>
+          <button className="closeBtn" onClick={() => setModelOpen(false)}>
             <RiCloseLine></RiCloseLine>
           </button>
           {/* modal content */}
@@ -23,7 +23,7 @@ export default function Modal({ setModalOpen }) {
               <button
                 className="logOutBtn"
                 onClick={() => {
-                  setModalOpen(false);
+                  setModelOpen(false);
                   localStorage.clear();
                   navigate("./signin");
                 }}
@@ -31,7 +31,7 @@ export default function Modal({ setModalOpen }) {
                 Log Out
               </button>
 
-              <button className="cancelBtn" onClick={() => setModalOpen(false)}>
+              <button className="cancelBtn" onClick={() => setModelOpen(false)}>
                 cancel
               </button>
             </div>

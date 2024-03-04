@@ -7,7 +7,12 @@ const POST = mongoose.model("POST")
 
 
 // Route
-
+router.get("/allposts",requireLogin,(req,res)=>{
+    POST.find()
+    .populate("postedBy","_id name")
+    .then(post=>res.json({post}))
+    .catch(err=>console.log(err))
+})
 
 router.post("/createPost", requireLogin, (req, res) => {
     const { body, pic } = req.body;

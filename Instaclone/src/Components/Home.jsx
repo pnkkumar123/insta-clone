@@ -1,11 +1,48 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import { MdOutlineFavoriteBorder,MdOutlineMood } from "react-icons/md";
 import './Home.css'
+import {useNavigate} from 'react-router-dom'
+
 
 function Home() {
+  const navigate = useNavigate();
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("jwt");
+        if (!token) {
+          navigate("/signin");
+          return;
+        }
+
+        const response = await fetch("http://localhost:5000/allposts", {
+          headers: {
+            Authorization: "Bearer " + token
+          }
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const result = await response.json();
+        setData(result);
+        console.log(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [navigate]);
+
+
   return (
     <div>
       {/* card */}
+      {data && data.post && data.post.map((posts)=>{
+        console.log(posts);
+      })}
       <div className="card">
         {/* card header */}
         <div className="card-header">
@@ -39,6 +76,6 @@ function Home() {
       </div>
     </div>
   );
-}
+  }
 
 export default Home;
