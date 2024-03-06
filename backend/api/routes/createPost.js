@@ -30,9 +30,71 @@ router.post("/createPost", requireLogin, (req, res) => {
         return res.json({ post: result })
     }).catch(err => console.log(err))
 })
-
-
-
+router.get("/myposts",requireLogin,(req,res)=>{
+    POST.find({postedBy:req.user._id})
+    .populate("postedBy","_id name")
+    .then(myposts=>{
+        res.json(myposts)
+    })
+})
+router.put("/like", requireLogin, (req, res) => {
+  POST.findByIdAndUpdate(
+    req.body.postId,
+    {
+      $push: { likes: req.user._id }
+    },
+    {
+      new: true
+    }
+  )
+  .populate("postedBy", "_id name Photo")
+  .exec() // Removed the callback function
+  .then(result => {
+    res.json(result);
+  })
+  .catch(err => {
+    res.status(422).json({ error: err });
+  });
+});
+router.put("/unlike", requireLogin, (req, res) => {
+  POST.findByIdAndUpdate(
+    req.body.postId,
+    {
+      $pull: { likes: req.user._id }
+    },
+    {
+      new: true
+    }
+  )
+  .populate("postedBy", "_id name Photo")
+  .exec() // Removed the callback function
+  .then(result => {
+    res.json(result);
+  })
+  .catch(err => {
+    res.status(422).json({ error: err });
+  });
+});
+router.put("/comment",requireLogin,(req,res)=>{
+  const comment={
+    comment:req.body.text,
+    postedBy:req.user._id
+  }
+  POST.findByIdAndUpdate(req.body.postId,{
+    $push:{comments:comment}
+  },{
+    new:true
+  })
+  .populate("comments.postedBy","_id name")
+  .populate("postedBy","_id name Photo")
+  .exec() // Removed the callback function
+  .then(result => {
+    res.json(result);
+  })
+  .catch(err => {
+    res.status(422).json({ error: err });
+  });
+})
 
 
 
