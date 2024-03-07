@@ -1,10 +1,33 @@
 import React,{useState,useEffect} from 'react'
 import "./Profile.css";
+import PostDetail from './PostDetails';
 
 
 
 function Profile() {
   const [pic, setPic] = useState([])
+  const [show, setShow] = useState(false)
+  const [posts, setPosts] = useState([])
+  const [user, setUser] = useState(second)
+   const [changePic, setChangePic] = useState(false)
+
+
+  const toggleDetails = (posts)=>{
+    if(show){
+      setShow(false)
+    }else{
+      setShow(true)
+      setPosts(posts)
+    }
+  }
+const changeprofile = ()=>{
+  if(changePic){
+    setChangePic(false)
+  }else{
+    setChangePic(true)
+  }
+}
+
   useEffect(() => {
     fetch("http://localhost:5000/myposts", {
         headers: {
@@ -55,6 +78,13 @@ function Profile() {
 
       
       </div>
+      {show && 
+      <PostDetail item={posts} toggleDetails={toggleDetails} />
+      }
+      {
+        changePic && 
+        <ProfilePic changeprofile={changeprofile}/>
+      }
 
     </div>
   )
