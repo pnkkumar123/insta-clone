@@ -13,6 +13,7 @@ import { useState } from 'react'
 import {ToastContainer} from 'react-toastify'
 import UserProfile from './Components/UserProfile'
 import CreatePost from './Components/CreatePost'
+import MyfollowingPost from './Components/MyfollowingPost'
 
 function App() {
   const [userLogin,setUserLogin] = useState(false);
@@ -30,6 +31,7 @@ function App() {
   <Route path='/profile' element={<Profile/>}/>
 <Route path='/createpost' element={<CreatePost/>}/>
 <Route path='/profile/:userid' element={<UserProfile/>}/>
+<Route path='/myfollowingpost' element={<MyfollowingPost/>}/>
 </Routes>
 <ToastContainer theme="dark"/>
 {modelOpen && <Modal setModelOpen={setModelOpen}></Modal>}

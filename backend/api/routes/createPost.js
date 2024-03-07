@@ -95,7 +95,27 @@ router.put("/comment",requireLogin,(req,res)=>{
     res.status(422).json({ error: err });
   });
 })
-
+// api to delete post
+router.delete("/deletePost/:postId",requireLogin,(req,res)=>{
+  POST.findOne({_id:req.params.postId})
+  .populate("postedBy","_id")
+  .exec()
+  .then(result=>{
+    res.json(result)
+  })
+  .catch(err=>{
+    res.status(422).json({error:err})
+  })
+})
+// to  show following post
+router.get("/myfollowingpost",requireLogin,(req,res)=>{
+  POST.find({postedBy:{$in:req.user.following}})
+  .populate("postedBy","_id name")
+  .then(posts=>{
+    res.json(posts)
+  })
+  .catch(err=>console.log(err))
+})
 
 
 
