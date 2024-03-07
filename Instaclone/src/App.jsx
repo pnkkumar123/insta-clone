@@ -7,10 +7,12 @@ import SignIn from './Components/SignIn'
 import Profile from './Components/Profile'
 import Home from './Components/Home'
 import Modal from './Components/Modal'
-import CreatePost from './Components/createPost'
+
 import { LoginContext } from './Context/LoginContext'
 import { useState } from 'react'
 import {ToastContainer} from 'react-toastify'
+import UserProfile from './Components/UserProfile'
+import CreatePost from './Components/CreatePost'
 
 function App() {
   const [userLogin,setUserLogin] = useState(false);
@@ -27,6 +29,7 @@ function App() {
   <Route path='/signin' element={<SignIn/>}/>
   <Route path='/profile' element={<Profile/>}/>
 <Route path='/createpost' element={<CreatePost/>}/>
+<Route path='/profile/:userid' element={<UserProfile/>}/>
 </Routes>
 <ToastContainer theme="dark"/>
 {modelOpen && <Modal setModelOpen={setModelOpen}></Modal>}

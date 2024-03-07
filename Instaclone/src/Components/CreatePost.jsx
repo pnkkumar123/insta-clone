@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "./Createpost.css";
+import "./CreatePost.css";
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 
-export default function Createpost() {
+export default function CreatePost() {
   const [body, setBody] = useState("");
   const [image, setImage] = useState("")
   const [url, setUrl] = useState("")
