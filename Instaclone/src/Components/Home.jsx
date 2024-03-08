@@ -209,7 +209,7 @@ view all Comments
               <div className="showComment">
                 <div className="container">
                   <div className="postPic">
-                    <img src={item.photo} alt="" />
+                    <img src={posts.photo} alt="" />
 
                   </div>
                   <div className="details">
@@ -222,7 +222,7 @@ view all Comments
                         <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60"
                     alt="" />
                       </div>
-                      <h5>{item.postedBy.name}</h5>
+                      <h5>{posts.postedBy.name}</h5>
 
                     </div>
                     {/* comment section */}
@@ -230,7 +230,7 @@ view all Comments
                     className="comment-section"
                     style={{borderBottom:"1px solid #00000029"}}
                     >
-                      {item.comments.map((comment)=>{
+                      {posts?.comments.map((comment)=>{
                         return(
                           <p className="comm">
                             <span style={{fontWeight:"bolder"}} className="commenter">
@@ -245,8 +245,8 @@ view all Comments
                     </div>
                     {/* card content */}
                     <div className="card-content">
-                      <p>{item.likes.length} Likes</p>
-                       <p>{item.body}</p>
+                      <p>{posts.likes.length} Likes</p>
+                       <p>{posts.body}</p>
                     </div>
                     {/* add comment */}
                     <div className="add-comment">
@@ -261,7 +261,7 @@ view all Comments
                       <button
                       className="comment"
                       onClick={()=>{
-                        makeComment(comment, item._id);
+                        makeComment(comment, posts._id);
                         toggleComment();
                       }}
                       >
