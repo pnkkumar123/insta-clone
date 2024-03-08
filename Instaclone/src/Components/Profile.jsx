@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import "./Profile.css";
 import PostDetail from './PostDetails';
+import ProfilePic from './ProfilePic';
 
 
 
@@ -8,7 +9,7 @@ function Profile() {
   const [pic, setPic] = useState([])
   const [show, setShow] = useState(false)
   const [posts, setPosts] = useState([])
-  const [user, setUser] = useState(second)
+  const [user, setUser] = useState("")
    const [changePic, setChangePic] = useState(false)
 
 
@@ -29,7 +30,7 @@ const changeprofile = ()=>{
 }
 
   useEffect(() => {
-    fetch("http://localhost:5000/myposts", {
+    fetch(`http://localhost:5000/user/${JSON.parse(localStorage.getItem("user"))._id}`, {
         headers: {
             Authorization: "Bearer " + localStorage.getItem("jwt")
         }
@@ -41,7 +42,9 @@ const changeprofile = ()=>{
         return res.json();
     })
     .then(result => {
-        setPic(result);
+      console.log(result.posts);
+        setPic(result.posts);
+        setUser(result.user)
     })
     .catch(error => {
         console.error('Error fetching data:', error);
@@ -55,26 +58,27 @@ const changeprofile = ()=>{
       <div className="profile-frame">
         {/* profile-pic */}
         <div className="profile-pic">
-          <img src="https://media.istockphoto.com/id/1336512835/photo/volcanic-eruption-in-iceland.jpg?s=612x612&w=is&k=20&c=205Aw3G46MBotlwGLKOt5ZJG8mrPpRm2A6WnR23ty5Q=" alt="" />
+          <img src={user.photo ? user.photo : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" } onClick={changePic} alt="" />
         </div>
         {/* profile-data */}
         <div className="profile-data">
-        <h1>hello dude</h1>  
+        <h1>{JSON.parse(localStorage.getItem("user")).name}</h1>  
         <div className="profile-info">
-          <p>  40 posts</p><br />
-          <p>  40 followers</p><br />
-          <p> 40 following</p><br />
+          <p>{pic ? pic.length : "0"} posts </p><br />
+          <p>{user.followers ? user.followers.lenght : "0"} followers </p><br />
+          <p>{user.following ? user.following.length : "0"} following </p><br />
         </div>
         </div>
       </div>
       <hr style={{width:"90%",margin:"auto",opacity:"0.8",margin:"25px auto"}} />
       {/* Gallery */}
       <div className="gallery">
-       {pic.map((pics)=>{
-        console.log(pics);
-        return <img key={pics._id} src={pics.photo} className='item'/>
-       }
-      )}
+      {pic.map((pics) => {
+    console.log(pics);
+    return <img key={pics._id} src={pics.photo} onClick={() => {
+        toggleDetails(pics)
+    }} className='item' />
+})}
 
       
       </div>

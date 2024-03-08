@@ -1,62 +1,111 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
+import logo from "../img/logo.png";
+import "./SignUp.css";
+import { Link, useNavigate } from "react-router-dom";
+
+import { toast } from 'react-toastify';
 
 
 export default function SignUp() {
+  const navigate = useNavigate()
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("")
+  const [userName, setUserName] = useState("")
+  const [password, setPassword] = useState("")
 
-  const [formData, setFormData] = useState({
-    name:'',
-    username: '',
-    email: '',
-    password: ''
-  });
-  const [error,setError] = useState(false);
-  const [loading,setLoading] = useState(false);
-  const handleChange = (e)=>{
-    setFormData({...formData,[e.target.id]:e.target.value})
+  // Toast functions
+  const notifyA = (msg) => toast.error(msg)
+  const notifyB = (msg) => toast.success(msg)
 
-  }
-  // where async is used use new suspensive react updates
-  const handleSubmit = async (e)=>{
-    e.preventDefault();
-    try{
-      setLoading(true);
-      setError(false);
-  const res = await fetch('http://localhost:3000/api/auth/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(formData),
-  }); 
-    const data = await res.json();
-    setLoading(false);
-    if(data.sucess === false){
-      setError(true);
+  
+
+  const postData = () => {
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      notifyA("Invalid email");
       return;
     }
- }catch(error){
-  setLoading(false);
-  setError(true);
- }
-   
     
-    
+    // Check if password meets the required criteria
+    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(password)) {
+      notifyA("Password must contain at least 8 characters, including at least 1 number, 1 uppercase letter, 1 lowercase letter, and 1 special character.");
+      return;
+    }
+
+    // Sending data to server
+    fetch("http://localhost:5000/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: name,
+        username: userName,
+        email: email,
+        password: password
+
+      })
+    }).then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          notifyA(data.error)
+        } else {
+          notifyB(data.message)
+          navigate("/signin")
+        }
+        console.log(data)
+      })
   }
+
   return (
-    <>
-    <div className='p-3 max-w-lg mx-auto'>
-    <h1 className='text-3xl text-center font-semibold my-7'>sign up</h1>
-    <form onSubmit={handleSubmit} className='flex flex-col gap-4 '>
-      <input type="text" onChange={handleChange} name="name" id="name" placeholder='Name' className='bg-slate-300 p-3 rounded-lg'/>
-      <input type="text" onChange={handleChange} name="username" id="username" placeholder='UserName' className='bg-slate-300 p-3 rounded-lg'/>
-      <input type="email" onChange={handleChange} name="email" id="email" placeholder='email' className='bg-slate-300 p-3 rounded-lg'/>
-      <input type="password" onChange={handleChange} name="password" id="password" placeholder='password' className='bg-slate-300 p-3 rounded-lg'/>
-      <button disabled={loading} className='bg-slate-800 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{loading ? 'loading...' : 'Sign up'}</button>
-    
-    
-    </form>
-   
+    <div className="signUp">
+      <div className="form-container">
+        <div className="form">
+          <img className="signUpLogo" src={logo} alt="" />
+          <p className="loginPara">
+            Sign up to see photos and videos <br /> from your friends
+          </p>
+          <div>
+            <input type="email" name="email" id="email" value={email} placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
+          </div>
+          <div>
+            <input type="text" name="name" id="name" placeholder="Full Name" value={name} onChange={((e) => { setName(e.target.value) })} />
+          </div>
+          <div>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              placeholder="Username"
+              value={userName}
+              onChange={(e) => { setUserName(e.target.value) }}
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => { setPassword(e.target.value) }}
+            />
+          </div>
+          <p
+            className="loginPara"
+            style={{ fontSize: "12px", margin: "3px 0px" }}
+          >
+            By signing up, you agree to out Terms, <br /> privacy policy and
+            cookies policy.
+          </p>
+          <input type="submit" id="submit-btn" value="Sign Up" onClick={() => { postData() }} />
+        </div>
+        <div className="form2">
+          Already have an account ?
+          <Link to="/signin">
+            <span style={{ color: "blue", cursor: "pointer" }}>Sign In</span>
+          </Link>
+        </div>
+      </div>
     </div>
-    </>
-  )
+  );
 }

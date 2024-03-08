@@ -1,6 +1,6 @@
 import React,{useContext} from 'react';
 import logo from '../img/logo.png'
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import './NavBar.css'
 import { CgProfile } from "react-icons/cg";
 import { MdCreateNewFolder } from "react-icons/md";
@@ -35,7 +35,7 @@ const Navbar = ({login}) => {
   
   return (
     <div className='navbar '>
-       <img className='w-1/10 object-contain ' src={logo} alt="" />
+      <NavLink to="/"> <img className='w-1/10 object-contain ' src={logo} alt="" /></NavLink>
        <ul className='ul'>
        
       { loginStatus()}

@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from 'react'
 import "./Profile.css";
 import { useParams } from 'react-router-dom';
+import { MdOutlineImage } from 'react-icons/md';
 
 
 
@@ -56,9 +57,9 @@ const UserProfile = () => {
         })
         .then((res)=>res.json())
         .then((result)=>{
-            console.log(result);
+            console.log(result.posts);
             setUser(result.user);
-            setPosts(result.post);
+            setPosts(result.posts);
             if(
                 result.user.followers.includes(
                     JSON.parse(localStorage.getItem("user"))._id
@@ -76,7 +77,7 @@ const UserProfile = () => {
     <div className='profile'>
         <div className="profile-frame">
             <div className="profile-pic">
-                <img src={user.Photo ? user.Photo : ""} alt=""  />
+             {user.photo ? <img src={user.photo } alt="" /> : <MdOutlineImage/>}    
             </div>
             <div className="profile-data">
                 <div
@@ -117,7 +118,7 @@ const UserProfile = () => {
         }}
         />
         <div className="gallery">
-            {posts.map((pics)=>{
+            {posts ?.map((pics)=>{
                 return (
                     <img 
                     key={pics._id}

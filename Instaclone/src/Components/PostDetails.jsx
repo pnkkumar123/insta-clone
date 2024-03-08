@@ -1,7 +1,8 @@
 import React from 'react';
 import {toast} from 'react-toastify'
+import './PostDetails.css'
 import {useNavigate} from 'react-router-dom'
-import { MdOutline10K, MdOutlineClose,  MdOutlineMood } from 'react-icons/md';
+import { MdOutlineClose,  MdOutlineDelete,  MdOutlineMood } from 'react-icons/md';
 
 
 export default function PostDetail({item,toggleDetails}){
@@ -45,8 +46,9 @@ export default function PostDetail({item,toggleDetails}){
                         <h5>{item.postedBy.name}</h5>
                         <div className="deletePost"
                         style={{borderBottom:"1px solid #00000029"}}
-                        >
-                        <MdOutline10K/>delete
+                       onClick={()=>{removePost(item._id)}}
+                       >
+                        <MdOutlineDelete/>delete
                         </div>
                     </div>
                     {/* commentSection */}

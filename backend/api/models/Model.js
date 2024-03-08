@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    userName: {
+    username: {
         type: String,
         required: true
     },
@@ -21,8 +21,8 @@ const userSchema = new mongoose.Schema({
     Photo: {
         type: String,
     },
-    followers: [{ type: ObjectId, ref: "USER" }],
-    following: [{ type: ObjectId, ref: "USER" }]
+    followers: [{ type: ObjectId, default:"0", ref: "USER" }],
+    following: [{ type: ObjectId, default:"0",ref: "USER" }]
 })
 
 mongoose.model("USER", userSchema)
