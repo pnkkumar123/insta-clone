@@ -11,9 +11,7 @@ const keys = require('../keys/keys.js');
 const Jwt_secret = keys.Jwt_secret;
 const requireLogin = require("../middleWares/requireLogin.js");
 
-router.get('/', (req, res) => {
-    res.send("hello")
-})
+
 
 router.post("/signup", (req, res) => {
     const { name, username, email, password } = req.body;
