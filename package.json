@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon api/index.js",
     "start": "node backend/index.js",
-    "build": "npm install && npm install  --prefix instaclone && npm run build --prefix instaclone"
+    "build": "npm install && npm install  --prefix Instaclone && npm run build --prefix Instaclone"
   },
   "author": "",
   "license": "ISC",

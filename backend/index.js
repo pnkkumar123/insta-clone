@@ -35,10 +35,10 @@ app.listen(port, () => {
 const __dirname1 = path.resolve();
 
 if ("production" === "production") {
-  app.use(express.static(path.join(__dirname1, "/instaclone/dist")));
+  app.use(express.static(path.join(__dirname1, "/Instaclone/dist")));
 
   app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname1, "instaclone", "dist", "index.html"))
+    res.sendFile(path.resolve(__dirname1, "Instaclone", "dist", "index.html"))
   );
 
 
