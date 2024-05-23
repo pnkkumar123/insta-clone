@@ -21,7 +21,7 @@ function Home() {
           return;
         }
   
-        const response = await fetch("http://localhost:5000/allposts", {
+        const response = await fetch("/allposts", {
           headers: {
             Authorization: "Bearer " + token
           }
@@ -53,7 +53,7 @@ function Home() {
   
 
   const likePost = (id) => {
-    fetch("http://localhost:5000/like", {
+    fetch("/like", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +76,7 @@ function Home() {
   };
 
   const unlikePost = (id) => {
-    fetch("http://localhost:5000/unlike", {
+    fetch("/unlike", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -109,7 +109,7 @@ function Home() {
   };
   // function to make comment
   const makeComment = (text,id)=>{
-    fetch("http://localhost:5000/comment",{
+    fetch("/comment",{
       method:"put",
       headers:{
         "Content-Type":"application/json",
@@ -142,7 +142,7 @@ function Home() {
       {data?.map((posts) => {
         console.log(posts);
         return (
-          <div className="card" key={posts._id}> {/* Add key prop */}
+          <div className="card" key={posts._id}> 
             {/* card header */}
             <div className="card-header">
               <div className="card-pic">
@@ -164,9 +164,9 @@ function Home() {
   {posts.likes.includes(
     JSON.parse(localStorage.getItem("user"))._id
   ) ? (
-    <CiHeart onClick={() => unlikePost(posts._id)} /> 
+    <FaHeart onClick={() => unlikePost(posts._id)} /> 
   ) : (
-    <FaHeart onClick={() => likePost(posts._id)} /> 
+    <CiHeart onClick={() => likePost(posts._id)} /> 
   )}
 
   <p>{posts.likes.length} Likes</p>

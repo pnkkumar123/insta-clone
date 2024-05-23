@@ -13,7 +13,7 @@ const UserProfile = () => {
   
     // to follow user
     const followUser = (userId)=>{
-        fetch("http://localhost:5000/follow",{
+        fetch("/follow",{
             method:"put",
             headers:{
                 "Content-Type":"application/json",
@@ -31,7 +31,7 @@ const UserProfile = () => {
     }
     // to unfolllow user
     const unfollowUser = (userId)=>{
-        fetch("http://localhost:5000/unfollow",{
+        fetch("/unfollow",{
             method:"put",
             headers:{
                 "Content-Type":"application/json",
@@ -50,7 +50,7 @@ const UserProfile = () => {
         })
     };
     useEffect(()=>{
-        fetch(`http://localhost:5000/user/${userid}`,{
+        fetch(`/user/${userid}`,{
             headers:{
                 Authorization: "Bearer " + localStorage.getItem("jwt"),
             }

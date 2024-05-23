@@ -23,7 +23,7 @@ const ProfilePic = ({ changeProfile }) => {
     };
 
     const postPic = () => {
-        fetch("http://localhost:5000/uploadProfilePic", {
+        fetch("/uploadProfilePic", {
             method: "put",
             headers: {
                 "Content-Type": "application/json",
